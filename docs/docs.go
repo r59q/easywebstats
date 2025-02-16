@@ -15,26 +15,56 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/example/helloworld": {
-            "get": {
-                "description": "do ping",
+        "/register/num": {
+            "post": {
+                "description": "Register a numeric stat",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "tags": [
-                    "example"
+                "summary": "Register numeric stat",
+                "parameters": [
+                    {
+                        "description": "test",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.NumStatRegistration"
+                        }
+                    }
                 ],
-                "summary": "ping example",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "number"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.NumStatRegistration": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
                 }
             }
         }
@@ -45,7 +75,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
 	Host:             "",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "",
 	Description:      "",

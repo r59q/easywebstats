@@ -1,20 +1,38 @@
-basePath: /api/v1
+definitions:
+  api.NumStatRegistration:
+    properties:
+      action:
+        type: string
+      label:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      value:
+        type: number
+    type: object
 info:
   contact: {}
 paths:
-  /example/helloworld:
-    get:
+  /register/num:
+    post:
       consumes:
       - application/json
-      description: do ping
+      description: Register a numeric stat
+      parameters:
+      - description: test
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/api.NumStatRegistration'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: ping example
-      tags:
-      - example
+            type: number
+      summary: Register numeric stat
 swagger: "2.0"
