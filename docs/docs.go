@@ -15,19 +15,146 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/register/num": {
-            "post": {
-                "description": "Register a numeric stat",
+        "/read/num/{name}": {
+            "get": {
+                "description": "Read a specific statistic",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Register numeric stat",
+                "summary": "Read a specific statistic",
                 "parameters": [
                     {
-                        "description": "test",
+                        "type": "string",
+                        "description": "Stat name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "$ref": "#/definitions/api.JSONNumReadResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/read/num/{name}/{label}": {
+            "get": {
+                "description": "Read a specific statistic",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read a specific statistic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Stat name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Stat label",
+                        "name": "label",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/num/decrease": {
+            "post": {
+                "description": "Decrease a numeric stat",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Decrease a numeric stat",
+                "parameters": [
+                    {
+                        "description": "Stat and value",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.NumStatRegistration"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/num/increase": {
+            "post": {
+                "description": "Increase a numeric stat",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Increase a numeric stat",
+                "parameters": [
+                    {
+                        "description": "Stat and value",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.NumStatRegistration"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/num/set": {
+            "post": {
+                "description": "Set a numeric stat",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Set numeric stat",
+                "parameters": [
+                    {
+                        "description": "Stat and value",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -48,19 +175,24 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.JSONNumReadResult": {
+            "type": "object",
+            "properties": {
+                "stat_name1": {
+                    "type": "number"
+                },
+                "stat_name2": {
+                    "type": "number"
+                }
+            }
+        },
         "api.NumStatRegistration": {
             "type": "object",
             "properties": {
-                "action": {
-                    "type": "string"
-                },
                 "label": {
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "type": {
                     "type": "string"
                 },
                 "value": {

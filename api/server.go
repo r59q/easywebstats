@@ -13,7 +13,13 @@ func RunGinSever() {
 	v0 := r.Group("/api/v0")
 	{
 		register := v0.Group("/register")
-		register.POST("/num", RegisterNumStat)
+		register.POST("/num/set", SetNumStat)
+		register.POST("/num/increase", IncreaseNumStat)
+		register.POST("/num/decrease", DecreaseNumStat)
+
+		read := v0.Group("/read")
+		read.GET("/num/:name/:label", ReadStatNameLabel)
+		read.GET("/num/:name", ReadStatName)
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":8080")

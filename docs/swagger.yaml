@@ -1,13 +1,16 @@
 definitions:
+  api.JSONNumReadResult:
+    properties:
+      stat_name1:
+        type: number
+      stat_name2:
+        type: number
+    type: object
   api.NumStatRegistration:
     properties:
-      action:
-        type: string
       label:
         type: string
       name:
-        type: string
-      type:
         type: string
       value:
         type: number
@@ -15,13 +18,56 @@ definitions:
 info:
   contact: {}
 paths:
-  /register/num:
+  /read/num/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Read a specific statistic
+      parameters:
+      - description: Stat name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            $ref: '#/definitions/api.JSONNumReadResult'
+      summary: Read a specific statistic
+  /read/num/{name}/{label}:
+    get:
+      consumes:
+      - application/json
+      description: Read a specific statistic
+      parameters:
+      - description: Stat name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Stat label
+        in: path
+        name: label
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Read a specific statistic
+  /register/num/decrease:
     post:
       consumes:
       - application/json
-      description: Register a numeric stat
+      description: Decrease a numeric stat
       parameters:
-      - description: test
+      - description: Stat and value
         in: body
         name: message
         required: true
@@ -34,5 +80,45 @@ paths:
           description: OK
           schema:
             type: number
-      summary: Register numeric stat
+      summary: Decrease a numeric stat
+  /register/num/increase:
+    post:
+      consumes:
+      - application/json
+      description: Increase a numeric stat
+      parameters:
+      - description: Stat and value
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/api.NumStatRegistration'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Increase a numeric stat
+  /register/num/set:
+    post:
+      consumes:
+      - application/json
+      description: Set a numeric stat
+      parameters:
+      - description: Stat and value
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/api.NumStatRegistration'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Set numeric stat
 swagger: "2.0"
