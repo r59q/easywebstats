@@ -71,9 +71,46 @@ curl -X 'GET' \
 # }
 ```
 
-## Building from source
+## Deploying
+### Docker
+Standalone container
+```shell
+# TODO: Not available on docker hub yet
+docker run --name easywebstats -p 8080:8080 -d r59q/easywebstats
+```
 
-### Prerequisits
+Part of a docker compose
+```yaml
+# TODO Not available on docker hub yet
+services:
+  webstats:
+    image: r59q/easywebstats
+    ports:
+      - "8080:8080"
+```
+
+Swagger docs available at http://localhost:8080/swagger/index.html
+
+### Using binary
+
+(todo) You can run the binary directly. [Build it directly from source](https://github.com/r59q/easywebstats?tab=readme-ov-file#building-from-source) or get it from the [releases](https://github.com/r59q/easywebstats/releases) page
+
+(todo)
+
+Install the application as a systemd service
+
+(todo)
+## Building
+### Building using dockerfile
+```shell
+docker build -t easywebstats . -f build/Dockerfile
+docker run --name easywebstats -p 8080:8080 -d easywebstats
+```
+Swagger docs available at http://localhost:8080/swagger/index.html
+
+### Building from source
+
+#### Prerequisits
 - [Go](https://go.dev/doc/install) v1.24
 - [Swaggo/swag](https://github.com/swaggo/swag?tab=readme-ov-file#getting-started) (generation of swagger documentation)
 
