@@ -71,6 +71,9 @@ curl -X 'GET' \
 # }
 ```
 
+### Demo
+A demo is available at [ews-demo.r59q.com](https://ews-demo.r59q.com/swagger/index.html). You can try out the API
+
 ## Deploying
 ### Docker
 Standalone container
