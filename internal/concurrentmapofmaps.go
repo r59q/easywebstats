@@ -4,35 +4,39 @@ import (
 	"sync"
 )
 
-type innerNumMap struct {
+type innerMap[V any] struct {
 	mu   sync.RWMutex
-	data map[string]float64
+	data map[string]V
 }
 
-func newSafeInnerMap() *innerNumMap {
-	return &innerNumMap{data: make(map[string]float64)}
+type concurrentMapOfMaps struct {
+	outerMap sync.Map
 }
 
-func (m *innerNumMap) Set(key string, value float64) {
+func newSafeInnerMap() *innerMap[float64] {
+	return &innerMap[float64]{data: make(map[string]float64)}
+}
+
+func (m *innerMap[float64]) Set(key string, value float64) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.data[key] = value
 }
 
-func (m *innerNumMap) Get(key string) (float64, bool) {
+func (m *innerMap[float64]) Get(key string) (float64, bool) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	val, exists := m.data[key]
 	return val, exists
 }
 
-func (m *innerNumMap) Delete(key string) {
+func (m *innerMap[float64]) Delete(key string) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	delete(m.data, key)
 }
 
-func (m *innerNumMap) Values() map[string]float64 {
+func (m *innerMap[float64]) Values() map[string]float64 {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	// Clone and return map
@@ -43,29 +47,25 @@ func (m *innerNumMap) Values() map[string]float64 {
 	return cloned
 }
 
-type concurrentMapOfMaps struct {
-	outerMap sync.Map
-}
-
-func (c *concurrentMapOfMaps) getOrCreateInnerMap(key string) *innerNumMap {
+func (c *concurrentMapOfMaps) getOrCreateInnerMap(key string) *innerMap[float64] {
 	actual, _ := c.outerMap.LoadOrStore(key, newSafeInnerMap())
-	return actual.(*innerNumMap)
+	return actual.(*innerMap[float64])
 }
 
 func (c *concurrentMapOfMaps) set(outerKey, innerKey string, value float64) {
-	innerMap := c.getOrCreateInnerMap(outerKey)
-	innerMap.Set(innerKey, value)
+	inner := c.getOrCreateInnerMap(outerKey)
+	inner.Set(innerKey, value)
 }
 
 func (c *concurrentMapOfMaps) get(outerKey, innerKey string) (float64, bool) {
-	if innerMap, ok := c.outerMap.Load(outerKey); ok {
-		return innerMap.(*innerNumMap).Get(innerKey)
+	if actual, ok := c.outerMap.Load(outerKey); ok {
+		return actual.(*innerMap[float64]).Get(innerKey)
 	}
 	return 0, false
 }
 
 func (c *concurrentMapOfMaps) delete(outerKey, innerKey string) {
-	if innerMap, ok := c.outerMap.Load(outerKey); ok {
-		innerMap.(*innerNumMap).Delete(innerKey)
+	if actual, ok := c.outerMap.Load(outerKey); ok {
+		actual.(*innerMap[float64]).Delete(innerKey)
 	}
 }
