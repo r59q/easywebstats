@@ -1,5 +1,6 @@
 # easywebstats
-![Static Badge](https://img.shields.io/badge/License-MIT-blue)
+![Static Badge](https://img.shields.io/badge/License-MIT-blue) ![TeamCity Full Build Status](https://img.shields.io/teamcity/build/e/Easywebstats_BuildAndDeploy?server=https%3A%2F%2Fcicd.r59q.com)
+
 
 Lightweight concurrent stat-collecting gin gonic web service with a simple API.
 
@@ -13,6 +14,7 @@ Data values are grouped by name and label.
 
 When stats are registered using a name and label, you can either read all stats for a given name, or a specific value for a given label and name.
 
+# Documentation
 ## Examples
 ### Registering statistics
 #### Set numeric value
@@ -72,37 +74,45 @@ curl -X 'GET' \
 ```
 
 ### Demo
-A demo is available at [ews-demo.r59q.com](https://ews-demo.r59q.com/swagger/index.html). You can try out the API
+A demo is available at [ews-demo.r59q.com](https://ews-demo.r59q.com/swagger/index.html). Check it out and try the api!
 
 ## Deploying
 ### Docker
 Standalone container
 ```shell
-# TODO: Not available on docker hub yet
 docker run --name easywebstats -p 8080:8080 -d r59q/easywebstats
 ```
 
 Part of a docker compose
 ```yaml
-# TODO Not available on docker hub yet
+# docker-compose.yml
 services:
   webstats:
     image: r59q/easywebstats
     ports:
       - "8080:8080"
+    restart: always
+```
+```shell
+docker compose up -d
 ```
 
 Swagger docs available at http://localhost:8080/swagger/index.html
 
 ### Using binary
-
+#### Standalone
 (todo) You can run the binary directly. [Build it directly from source](https://github.com/r59q/easywebstats?tab=readme-ov-file#building-from-source) or get it from the [releases](https://github.com/r59q/easywebstats/releases) page
 
 (todo)
-
+#### As a service
 Install the application as a systemd service
 
 (todo)
+
+## Security
+
+Currently there's no built-in security, it's expected to be done on a network layer. This may change in the future.
+
 ## Building
 ### Building using dockerfile
 ```shell
