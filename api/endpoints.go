@@ -25,7 +25,7 @@ func SetNumStat(g *gin.Context) {
 		return
 	}
 	value := internal.HandleSetNum(registration.Name, registration.Label, registration.Value)
-	g.JSON(http.StatusOK, value)
+	g.JSON(http.StatusOK, gin.H{"value": value})
 }
 
 // IncreaseNumStat godoc
@@ -45,7 +45,7 @@ func IncreaseNumStat(g *gin.Context) {
 		return
 	}
 	value := internal.HandleIncreaseNum(registration.Name, registration.Label, registration.Value)
-	g.JSON(http.StatusOK, value)
+	g.JSON(http.StatusOK, gin.H{"value": value})
 }
 
 // DecreaseNumStat godoc
@@ -65,7 +65,7 @@ func DecreaseNumStat(g *gin.Context) {
 		return
 	}
 	value := internal.HandleDecreaseNum(registration.Name, registration.Label, registration.Value)
-	g.JSON(http.StatusOK, value)
+	g.JSON(http.StatusOK, gin.H{"value": value})
 }
 
 // ReadStatNameLabel godoc
@@ -82,11 +82,8 @@ func ReadStatNameLabel(g *gin.Context) {
 	name := g.Params.ByName("name")
 	label := g.Params.ByName("label")
 
-	value, exists := internal.ReadNumLabel(name, label)
-	if !exists {
-		g.Value(0) // Default to 0
-	}
-	g.Value(value)
+	value := internal.ReadNumLabel(name, label)
+	g.JSON(http.StatusOK, gin.H{"value": value})
 }
 
 // ReadStatName godoc

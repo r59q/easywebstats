@@ -29,7 +29,10 @@ curl -X 'POST' \
   "label": "about_page",
   "value": 10
 }'
-# Outputs 10 (Returns the number of visits)
+# Outputs (Returns the updated number of visits)
+# {
+#   "value": 10
+# }
 ```
 
 #### Increase numeric value
@@ -45,7 +48,10 @@ curl -X 'POST' \
   "label": "about_page",
   "value": 1
 }'
-# Outputs 11 (Returns the updated number of visits)
+# Outputs (Returns the updated number of visits)
+# {
+#   "value": 11
+# }
 ```
 
 ### Reading statistics
@@ -56,7 +62,11 @@ curl -X 'GET' \
   'http://localhost:8080/api/v0/read/num/number_of_visits/about_page' \
   -H 'accept: application/json'
 
-# Outputs 10
+# Outputs
+# {
+#   "value": 10
+# }
+
 ```
 
 #### Read numeric values
