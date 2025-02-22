@@ -57,7 +57,11 @@ func (s *numberStore) estimateRate(name string, label string, newValue float64) 
 	if prevValue == newValue {
 		return previousRate
 	}
-	instRate := (newValue - prevValue) / float64(time.Now().Second()-updated.Second())
+	timeDiffSeconds := (float64(time.Now().Nanosecond()) - float64(updated.Nanosecond())) / 1000 / 1000
+	if timeDiffSeconds == 0 {
+		return prevValue
+	}
+	instRate := (newValue - prevValue) / timeDiffSeconds
 	return rateSmoothingFactor*instRate + (1-rateSmoothingFactor)*previousRate
 }
 
