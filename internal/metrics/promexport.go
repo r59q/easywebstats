@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"fmt"
 	"r59q.com/easywebstats/internal/datastore"
 	"strconv"
 	"strings"
@@ -9,25 +10,42 @@ import (
 func GetPrometheusExport() string {
 	numericStore := datastore.GetNumberStore()
 	names := numericStore.GetNames()
-	exports := []string{}
+
+	allStats := []string{}
+	allMeans := []string{}
 
 	for _, name := range names {
-		exports = append(exports, getNumericStat(name))
+		mean, stats := getNumericStat(name)
+		allMeans = append(allMeans, mean)
+		allStats = append(allStats, strings.Join(stats, "\n"))
 	}
 
-	return strings.Join(exports, "\n")
+	statsExport := strings.Join(allStats, "\n")
+	meansExport := strings.Join(allMeans, "\n")
+	return fmt.Sprintf("%s\n\n%s", statsExport, meansExport)
 }
 
-func getNumericStat(name string) string {
+func getNumericStat(name string) (string, []string) {
+	return getNumericStatMeanExport(name), getNumericStatValues(name)
+}
+
+func getNumericStatValues(name string) []string {
 	numericStore := datastore.GetNumberStore()
 	labels := numericStore.GetLabels(name)
-	exports := []string{}
 
+	exports := []string{}
 	for key, value := range labels {
-		// ews_stat{name="name",label="label"} xx
 		fVal := strconv.FormatFloat(value, 'f', -1, 64)
 		export := "ews_stat{name=\"" + name + "\",label=\"" + key + "\"} " + fVal
 		exports = append(exports, export)
 	}
-	return strings.Join(exports, "\n")
+
+	return exports
+}
+
+func getNumericStatMeanExport(name string) string {
+	numericStore := datastore.GetNumberStore()
+	mean := numericStore.GetMean(name)
+	fMean := strconv.FormatFloat(mean, 'f', -1, 64)
+	return "ews_stat_mean{name=\"" + name + "\"} " + fMean
 }
