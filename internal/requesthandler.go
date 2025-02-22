@@ -30,6 +30,16 @@ func ReadNumLabel(name string, label string) float64 {
 	return store.Get(name, label)
 }
 
+func ReadNumExponentialRate(name string, label string) float64 {
+	store := datastore.GetNumberStore()
+	return store.GetRateEstimate(name, label)
+}
+
+func ReadNumExponentialRates(name string) map[string]float64 {
+	store := datastore.GetNumberStore()
+	return store.GetRateEstimates(name)
+}
+
 func ReadNumName(name string) map[string]float64 {
 	store := datastore.GetNumberStore()
 	return store.GetLabels(name)

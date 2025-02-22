@@ -18,7 +18,52 @@ definitions:
 info:
   contact: {}
 paths:
-  /read/num/{name}:
+  /read/num/exponentialrate/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Read rate estimates of a specific statistic. Not suitable for accuracy,
+        but great for quickly comparing stats.
+      parameters:
+      - description: Stat name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Read all rate estimates for a stat name
+  /read/num/exponentialrate/{name}/{label}:
+    get:
+      consumes:
+      - application/json
+      description: Read rate estimate of a specific statistic. Not suitable for accuracy,
+        but great for quickly comparing stats.
+      parameters:
+      - description: Stat name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Stat label
+        in: path
+        name: label
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Read an exponential *estimate* of a numeric rate of change
+  /read/num/value/{name}:
     get:
       consumes:
       - application/json
@@ -37,7 +82,7 @@ paths:
           schema:
             $ref: '#/definitions/api.JSONNumReadResult'
       summary: Read a specific statistic
-  /read/num/{name}/{label}:
+  /read/num/value/{name}/{label}:
     get:
       consumes:
       - application/json

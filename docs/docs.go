@@ -15,7 +15,72 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/read/num/{name}": {
+        "/read/num/exponentialrate/{name}": {
+            "get": {
+                "description": "Read rate estimates of a specific statistic. Not suitable for accuracy, but great for quickly comparing stats.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read all rate estimates for a stat name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Stat name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/read/num/exponentialrate/{name}/{label}": {
+            "get": {
+                "description": "Read rate estimate of a specific statistic. Not suitable for accuracy, but great for quickly comparing stats.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read an exponential *estimate* of a numeric rate of change",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Stat name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Stat label",
+                        "name": "label",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/read/num/value/{name}": {
             "get": {
                 "description": "Read a specific statistic",
                 "consumes": [
@@ -44,7 +109,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/read/num/{name}/{label}": {
+        "/read/num/value/{name}/{label}": {
             "get": {
                 "description": "Read a specific statistic",
                 "consumes": [

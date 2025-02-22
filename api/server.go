@@ -18,8 +18,10 @@ func RunGinSever() {
 		register.POST("/num/decrease", DecreaseNumStat)
 
 		read := v0.Group("/read")
-		read.GET("/num/:name/:label", ReadStatNameLabel)
-		read.GET("/num/:name", ReadStatName)
+		read.GET("/num/value/:name/:label", ReadStatNameLabel)
+		read.GET("/num/value/:name", ReadStatName)
+		read.GET("/num/exponentialrate/:name/:label", ReadStatNameLabelExponentialRate)
+		read.GET("/num/exponentialrate/:name", ReadStatNameExponentialRates)
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":8080")

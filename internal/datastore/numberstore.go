@@ -1,16 +1,28 @@
 package datastore
 
+import (
+	"r59q.com/easywebstats/internal/concurrent"
+	"time"
+)
+
+var rateSmoothingFactor = 0.1
+
 type NumberStore interface {
 	Set(name string, label string, data float64) float64
 	Get(name string, label string) float64
+	GetRateEstimate(name string, label string) float64
 	GetLabels(name string) map[string]float64
+	GetRateEstimates(name string) map[string]float64
 }
 
 type numberStore struct {
 	numberMap StatMapper[float64]
+	rateStore concurrent.Map[float64]
 }
 
 func (s *numberStore) Set(name string, label string, data float64) float64 {
+	rateEstimate := s.estimateRate(name, label, data)
+	s.rateStore.GetOrCreateInnerMap(name).Set(label, rateEstimate)
 	newValue := s.numberMap.Set(name, label, data)
 	return newValue
 }
@@ -27,7 +39,36 @@ func (s *numberStore) GetLabels(name string) map[string]float64 {
 	return s.numberMap.GetLabels(name)
 }
 
-var store = &numberStore{numberMap: CreateStatMap[float64]()}
+func (s *numberStore) GetRateEstimate(name string, label string) float64 {
+	rate, exists := s.rateStore.GetOrCreateInnerMap(name).Get(label)
+	if !exists {
+		return 0
+	}
+	return rate
+}
+
+func (s *numberStore) estimateRate(name string, label string, newValue float64) float64 {
+	updated, hasBeenUpdated := s.numberMap.GetLastUpdated(name, label)
+	if !hasBeenUpdated {
+		return 0
+	}
+	previousRate := s.GetRateEstimate(name, label)
+	prevValue := s.Get(name, label)
+	if prevValue == newValue {
+		return previousRate
+	}
+	instRate := (newValue - prevValue) / float64(time.Now().Second()-updated.Second())
+	return rateSmoothingFactor*instRate + (1-rateSmoothingFactor)*previousRate
+}
+
+func (s *numberStore) GetRateEstimates(name string) map[string]float64 {
+	return s.rateStore.GetOrCreateInnerMap(name).Values()
+}
+
+var store = &numberStore{
+	numberMap: CreateStatMap[float64](),
+	rateStore: concurrent.Map[float64]{},
+}
 
 func GetNumberStore() NumberStore {
 	return store
