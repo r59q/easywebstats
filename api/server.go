@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"os"
 	"r59q.com/easywebstats/docs"
 )
 
@@ -27,5 +28,9 @@ func RunGinSever() {
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/metrics", GetMetrics)
-	r.Run(":8080")
+	port := os.Getenv("EWS_PORT")
+	if len(port) == 0 {
+		port = "8080"
+	}
+	r.Run(":" + port)
 }

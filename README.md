@@ -111,13 +111,60 @@ Swagger docs available at http://localhost:8080/swagger/index.html
 
 ### Using binary
 #### Standalone
-(todo) You can run the binary directly. [Build it directly from source](https://github.com/r59q/easywebstats?tab=readme-ov-file#building-from-source) or get it from the [releases](https://github.com/r59q/easywebstats/releases) page
 
-(todo)
+You can run the binary directly. [Build it directly from source](https://github.com/r59q/easywebstats?tab=readme-ov-file#building-from-source) or get it from the [releases](https://github.com/r59q/easywebstats/releases) page
+
+There's no configuration needed, just run the binary
+
+```shell
+./easywebstats
+```
+
 #### As a service
 Install the application as a systemd service
 
-(todo)
+Download the binary and create a systemd service
+
+```shell
+sudo vi /etc/systemd/system/easywebstats.service
+```
+
+Create a user and fill out the service file
+
+```toml
+# easywebstats.service
+[Unit]
+Description=EasyWebStats
+After=network.target
+
+[Service]
+Type=simple
+# Create a user
+User=r59q 
+Group=r59q
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/local/bin/easywebstats
+Restart=always
+RestartSec=5
+Environment="GIN_MODE=release"
+Environment="EWS_PORT=8080"
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Start the service
+```shell
+sudo systemctl daemon-reload
+sudo systemctl start easywebstats.service
+sudo systemctl enable easywebstats.service
+```
+Confirm it's running
+```shell
+sudo systemctl status easywebstats.service
+```
+
+The port can be changed by changing the EWS_PORT environment variable.
 
 ## Security
 
