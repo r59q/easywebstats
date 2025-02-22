@@ -1,31 +1,34 @@
 package datastore
 
-import "r59q.com/easywebstats/internal/concurrent"
-
-type numberstore struct {
-	numberMap *concurrent.Map[float64]
+type NumberStore interface {
+	Set(name string, label string, data float64) float64
+	Get(name string, label string) float64
+	GetLabels(name string) map[string]float64
 }
 
-func (s numberstore) Set(name string, label string, data float64) float64 {
-	s.numberMap.GetOrCreateInnerMap(name).Set(label, data)
-	val := s.Get(name, label)
+type numberStore struct {
+	numberMap StatMapper[float64]
+}
+
+func (s *numberStore) Set(name string, label string, data float64) float64 {
+	newValue := s.numberMap.Set(name, label, data)
+	return newValue
+}
+
+func (s *numberStore) Get(name string, label string) float64 {
+	val, exists := s.numberMap.Get(name, label)
+	if !exists {
+		return 0
+	}
 	return val
 }
 
-func (s numberstore) Get(name string, label string) float64 {
-	value, wasSet := s.numberMap.GetOrCreateInnerMap(name).Get(label)
-	if !wasSet {
-		return 0
-	}
-	return value
+func (s *numberStore) GetLabels(name string) map[string]float64 {
+	return s.numberMap.GetLabels(name)
 }
 
-func (s numberstore) GetLabels(name string) map[string]float64 {
-	return s.numberMap.GetOrCreateInnerMap(name).Values()
-}
+var store = &numberStore{numberMap: CreateStatMap[float64]()}
 
-var store = &numberstore{numberMap: &concurrent.Map[float64]{}}
-
-func GetNumberStore() Datastore[float64] {
+func GetNumberStore() NumberStore {
 	return store
 }

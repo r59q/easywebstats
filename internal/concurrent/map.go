@@ -43,6 +43,17 @@ func (m *InnerMap[V]) Values() map[string]V {
 	return cloned
 }
 
+func (m *InnerMap[V]) Keys() []string {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	// Clone and return map
+	var keys []string
+	for key, _ := range m.data {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
 type Map[V any] struct {
 	outerMap sync.Map
 }
