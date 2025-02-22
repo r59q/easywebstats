@@ -14,6 +14,7 @@ type NumberStore interface {
 	GetLabels(name string) map[string]float64
 	GetRateEstimates(name string) map[string]float64
 	GetNames() []string
+	GetMean(name string) float64
 }
 
 type numberStore struct {
@@ -72,6 +73,19 @@ func (s *numberStore) GetRateEstimates(name string) map[string]float64 {
 
 func (s *numberStore) GetNames() []string {
 	return s.numberMap.GetNames()
+}
+
+func (s *numberStore) GetMean(name string) float64 {
+	labels := s.numberMap.GetLabels(name)
+	sum := 0.0
+	for _, val := range labels {
+		sum += val
+	}
+	numberOfLabels := float64(len(labels))
+	if sum == 0.0 {
+		return 0.0
+	}
+	return sum / numberOfLabels
 }
 
 var store = &numberStore{

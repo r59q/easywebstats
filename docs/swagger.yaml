@@ -63,6 +63,25 @@ paths:
           schema:
             type: number
       summary: Read an exponential *estimate* of a numeric rate of change
+  /read/num/mean/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Returns the mean for all values across the stat name
+      parameters:
+      - description: Stat name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Read the mean value for a name
   /read/num/names:
     get:
       consumes:

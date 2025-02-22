@@ -80,6 +80,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/read/num/mean/{name}": {
+            "get": {
+                "description": "Returns the mean for all values across the stat name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read the mean value for a name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Stat name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
         "/read/num/names": {
             "get": {
                 "description": "Read list of numeric stats",

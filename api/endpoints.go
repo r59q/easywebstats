@@ -148,3 +148,19 @@ func ReadStatNameExponentialRates(g *gin.Context) {
 	value := internal.ReadNumExponentialRates(name)
 	g.JSON(http.StatusOK, gin.H{"value": value})
 }
+
+// ReadNumMean godoc
+// @Summary Read the mean value for a name
+// @Schemes
+// @Param name path string true "Stat name"
+// @Description Returns the mean for all values across the stat name
+// @Accept json
+// @Produce json
+// @Success 200 {number} Label mean value
+// @Router /read/num/mean/{name} [get]
+func ReadNumMean(g *gin.Context) {
+	name := g.Params.ByName("name")
+
+	value := internal.ReadNumMean(name)
+	g.JSON(http.StatusOK, gin.H{"value": value})
+}

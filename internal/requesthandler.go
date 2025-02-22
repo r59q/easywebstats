@@ -40,6 +40,11 @@ func ReadNumExponentialRates(name string) map[string]float64 {
 	return store.GetRateEstimates(name)
 }
 
+func ReadNumMean(name string) float64 {
+	store := datastore.GetNumberStore()
+	return store.GetMean(name)
+}
+
 func ReadNumName(name string) map[string]float64 {
 	store := datastore.GetNumberStore()
 	return store.GetLabels(name)
