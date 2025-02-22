@@ -80,6 +80,26 @@ const docTemplate = `{
                 }
             }
         },
+        "/read/num/names": {
+            "get": {
+                "description": "Read list of numeric stats",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read all names",
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "$ref": "#/definitions/api.JSONNumReadResult"
+                        }
+                    }
+                }
+            }
+        },
         "/read/num/value/{name}": {
             "get": {
                 "description": "Read a specific statistic",

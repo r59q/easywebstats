@@ -13,6 +13,7 @@ type NumberStore interface {
 	GetRateEstimate(name string, label string) float64
 	GetLabels(name string) map[string]float64
 	GetRateEstimates(name string) map[string]float64
+	GetNames() []string
 }
 
 type numberStore struct {
@@ -67,6 +68,10 @@ func (s *numberStore) estimateRate(name string, label string, newValue float64) 
 
 func (s *numberStore) GetRateEstimates(name string) map[string]float64 {
 	return s.rateStore.GetOrCreateInnerMap(name).Values()
+}
+
+func (s *numberStore) GetNames() []string {
+	return s.numberMap.GetNames()
 }
 
 var store = &numberStore{

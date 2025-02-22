@@ -85,6 +85,10 @@ func (sm *StatMap[V]) GetLabels(name string) map[string]V {
 	return resultMap
 }
 
+func (sm *StatMap[V]) GetNames() []string {
+	return sm.concurrentMap.Keys()
+}
+
 func CreateStatMap[V any]() StatMapper[V] {
 	return &StatMap[V]{concurrentMap: &concurrent.Map[ValueMetaData[V]]{}}
 }

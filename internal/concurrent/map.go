@@ -63,6 +63,15 @@ func (c *Map[V]) GetOrCreateInnerMap(key string) *InnerMap[V] {
 	return actual.(*InnerMap[V])
 }
 
+func (c *Map[V]) Keys() []string {
+	keys := make([]string, 0)
+	c.outerMap.Range(func(key, value any) bool {
+		keys = append(keys, key.(string))
+		return true
+	})
+	return keys
+}
+
 func (c *Map[V]) set(outerKey, innerKey string, value V) {
 	inner := c.GetOrCreateInnerMap(outerKey)
 	inner.Set(innerKey, value)

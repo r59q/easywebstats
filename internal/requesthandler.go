@@ -44,3 +44,8 @@ func ReadNumName(name string) map[string]float64 {
 	store := datastore.GetNumberStore()
 	return store.GetLabels(name)
 }
+
+func ReadNumNames() []string {
+	store := datastore.GetNumberStore()
+	return store.GetNames()
+}

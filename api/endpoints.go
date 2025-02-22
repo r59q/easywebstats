@@ -102,6 +102,19 @@ func ReadStatName(g *gin.Context) {
 	g.JSON(http.StatusOK, values)
 }
 
+// ReadNumNames godoc
+// @Summary Read all names
+// @Schemes
+// @Description Read list of numeric stats
+// @Accept json
+// @Produce json
+// @Success 200 {object} JSONNumReadResult "desc"
+// @Router /read/num/names [get]
+func ReadNumNames(g *gin.Context) {
+	values := internal.ReadNumNames()
+	g.JSON(http.StatusOK, values)
+}
+
 // ReadStatNameLabelExponentialRate godoc
 // @Summary Read an exponential *estimate* of a numeric rate of change
 // @Schemes

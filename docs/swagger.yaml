@@ -63,6 +63,19 @@ paths:
           schema:
             type: number
       summary: Read an exponential *estimate* of a numeric rate of change
+  /read/num/names:
+    get:
+      consumes:
+      - application/json
+      description: Read list of numeric stats
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            $ref: '#/definitions/api.JSONNumReadResult'
+      summary: Read all names
   /read/num/value/{name}:
     get:
       consumes:
