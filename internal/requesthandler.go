@@ -1,6 +1,9 @@
 package internal
 
-import "r59q.com/easywebstats/internal/datastore"
+import (
+	"r59q.com/easywebstats/internal/datastore"
+	"r59q.com/easywebstats/internal/metrics"
+)
 
 func HandleSetNum(name string, label string, value float64) float64 {
 	store := datastore.GetNumberStore()
@@ -53,4 +56,8 @@ func ReadNumName(name string) map[string]float64 {
 func ReadNumNames() []string {
 	store := datastore.GetNumberStore()
 	return store.GetNames()
+}
+
+func GetMetrics() string {
+	return metrics.GetPrometheusExport()
 }

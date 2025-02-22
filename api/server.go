@@ -26,5 +26,6 @@ func RunGinSever() {
 		read.GET("/num/mean/:name", ReadNumMean)
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.GET("/metrics", GetMetrics)
 	r.Run(":8080")
 }

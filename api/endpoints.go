@@ -164,3 +164,7 @@ func ReadNumMean(g *gin.Context) {
 	value := internal.ReadNumMean(name)
 	g.JSON(http.StatusOK, gin.H{"value": value})
 }
+
+func GetMetrics(g *gin.Context) {
+	g.String(http.StatusOK, internal.GetMetrics())
+}
