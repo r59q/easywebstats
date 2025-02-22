@@ -27,10 +27,10 @@ func GetPrometheusExport() string {
 	exponentialRatesExport := strings.Join(allExponentialRates, "\n")
 	return fmt.Sprintf("# HELP ews_stat All stats grouped by name and label\n"+
 		"# TYPE ews_stat gauge\n"+
-		"%s\n\n"+
+		"%s\n"+
 		"# HELP ews_stat_mean Mean values grouped by name\n"+
 		"# TYPE ews_stat_mean gauge\n"+
-		"%s\n\n"+
+		"%s\n"+
 		"# HELP ews_stat_exprate The exponential rate estimate grouped by name\n"+
 		"# TYPE ews_stat_exprate gauge\n"+
 		"%s", statsExport, meansExport, exponentialRatesExport)
