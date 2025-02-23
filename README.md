@@ -1,8 +1,6 @@
 # easywebstats
 ![Static Badge](https://img.shields.io/badge/License-MIT-blue) ![TeamCity Full Build Status](https://img.shields.io/teamcity/build/e/Easywebstats_BuildAndDeploy?server=https%3A%2F%2Fcicd.r59q.com) ![Docker Image Size](https://img.shields.io/docker/image-size/r59q/easywebstats)
 
-
-
 Lightweight concurrent stat-collecting gin gonic web service with a simple API. Stats are queried using REST and are exported as prometheus metrics.
 
 ## Registering statistics
@@ -10,6 +8,8 @@ Lightweight concurrent stat-collecting gin gonic web service with a simple API. 
 Registering statistics is automatically done when settings values. No initialization is needed, just set the values you wish to track.
 
 Data values are grouped by name and label.
+
+Note: **Stats are stored in-memory, which means for now, all data is lost when application is rebooted**
 
 ## Reading statistics
 
