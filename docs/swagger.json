@@ -27,7 +27,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -63,7 +63,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -92,7 +92,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -100,17 +100,17 @@
         },
         "/read/num/names": {
             "get": {
-                "description": "Read list of numeric stats",
+                "description": "Read list of numeric stat names",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Read all names",
+                "summary": "Read all stat names",
                 "responses": {
                     "200": {
-                        "description": "desc",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.JSONNumReadResult"
                         }
@@ -120,7 +120,7 @@
         },
         "/read/num/value/{name}": {
             "get": {
-                "description": "Read a specific statistic",
+                "description": "Read all labels associated with a stat by name",
                 "consumes": [
                     "application/json"
                 ],
@@ -139,7 +139,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "desc",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.JSONNumReadResult"
                         }
@@ -149,7 +149,7 @@
         },
         "/read/num/value/{name}/{label}": {
             "get": {
-                "description": "Read a specific statistic",
+                "description": "Read a specific single numeric statistic by name and label",
                 "consumes": [
                     "application/json"
                 ],
@@ -177,7 +177,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -185,7 +185,7 @@
         },
         "/register/num/decrease": {
             "post": {
-                "description": "Decrease a numeric stat",
+                "description": "Decrease a numeric stat by some amount",
                 "consumes": [
                     "application/json"
                 ],
@@ -195,7 +195,7 @@
                 "summary": "Decrease a numeric stat",
                 "parameters": [
                     {
-                        "description": "Stat and value",
+                        "description": "Stat and value to decrease by",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -208,7 +208,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -216,7 +216,7 @@
         },
         "/register/num/increase": {
             "post": {
-                "description": "Increase a numeric stat",
+                "description": "Increase a numeric stat by some amount",
                 "consumes": [
                     "application/json"
                 ],
@@ -239,7 +239,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -257,7 +257,7 @@
                 "summary": "Set numeric stat",
                 "parameters": [
                     {
-                        "description": "Stat and value",
+                        "description": "Stat and value to increase by",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -270,7 +270,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -302,6 +302,9 @@
                     "type": "number"
                 }
             }
+        },
+        "api.ValueResponse": {
+            "type": "object"
         }
     }
 }

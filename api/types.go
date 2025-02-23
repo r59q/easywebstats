@@ -1,5 +1,9 @@
 package api
 
+type ValueResponse struct {
+	value any `json:"value"`
+}
+
 type NumStatRegistration struct {
 	Name  string  `json:"name"`
 	Label string  `json:"label"`

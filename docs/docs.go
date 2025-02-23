@@ -38,7 +38,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -74,7 +74,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -103,7 +103,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -111,17 +111,17 @@ const docTemplate = `{
         },
         "/read/num/names": {
             "get": {
-                "description": "Read list of numeric stats",
+                "description": "Read list of numeric stat names",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Read all names",
+                "summary": "Read all stat names",
                 "responses": {
                     "200": {
-                        "description": "desc",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.JSONNumReadResult"
                         }
@@ -131,7 +131,7 @@ const docTemplate = `{
         },
         "/read/num/value/{name}": {
             "get": {
-                "description": "Read a specific statistic",
+                "description": "Read all labels associated with a stat by name",
                 "consumes": [
                     "application/json"
                 ],
@@ -150,7 +150,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "desc",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/api.JSONNumReadResult"
                         }
@@ -160,7 +160,7 @@ const docTemplate = `{
         },
         "/read/num/value/{name}/{label}": {
             "get": {
-                "description": "Read a specific statistic",
+                "description": "Read a specific single numeric statistic by name and label",
                 "consumes": [
                     "application/json"
                 ],
@@ -188,7 +188,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -196,7 +196,7 @@ const docTemplate = `{
         },
         "/register/num/decrease": {
             "post": {
-                "description": "Decrease a numeric stat",
+                "description": "Decrease a numeric stat by some amount",
                 "consumes": [
                     "application/json"
                 ],
@@ -206,7 +206,7 @@ const docTemplate = `{
                 "summary": "Decrease a numeric stat",
                 "parameters": [
                     {
-                        "description": "Stat and value",
+                        "description": "Stat and value to decrease by",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -219,7 +219,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -227,7 +227,7 @@ const docTemplate = `{
         },
         "/register/num/increase": {
             "post": {
-                "description": "Increase a numeric stat",
+                "description": "Increase a numeric stat by some amount",
                 "consumes": [
                     "application/json"
                 ],
@@ -250,7 +250,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -268,7 +268,7 @@ const docTemplate = `{
                 "summary": "Set numeric stat",
                 "parameters": [
                     {
-                        "description": "Stat and value",
+                        "description": "Stat and value to increase by",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -281,7 +281,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.ValueResponse"
                         }
                     }
                 }
@@ -313,6 +313,9 @@ const docTemplate = `{
                     "type": "number"
                 }
             }
+        },
+        "api.ValueResponse": {
+            "type": "object"
         }
     }
 }`

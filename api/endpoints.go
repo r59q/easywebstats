@@ -11,11 +11,11 @@ import (
 // SetNumStat godoc
 // @Summary Set numeric stat
 // @Schemes
-// @Param message body api.NumStatRegistration true "Stat and value"
+// @Param message body api.NumStatRegistration true "Stat and value to increase by"
 // @Description Set a numeric stat
 // @Accept json
 // @Produce json
-// @Success 200 {number} Current value
+// @Success 200 {object} api.ValueResponse
 // @Router /register/num/set [post]
 func SetNumStat(g *gin.Context) {
 	var registration NumStatRegistration
@@ -32,10 +32,10 @@ func SetNumStat(g *gin.Context) {
 // @Summary Increase a numeric stat
 // @Schemes
 // @Param message body api.NumStatRegistration true "Stat and value"
-// @Description Increase a numeric stat
+// @Description Increase a numeric stat by some amount
 // @Accept json
 // @Produce json
-// @Success 200 {number} Current value
+// @Success 200 {object} api.ValueResponse
 // @Router /register/num/increase [post]
 func IncreaseNumStat(g *gin.Context) {
 	var registration NumStatRegistration
@@ -51,11 +51,11 @@ func IncreaseNumStat(g *gin.Context) {
 // DecreaseNumStat godoc
 // @Summary Decrease a numeric stat
 // @Schemes
-// @Param message body api.NumStatRegistration true "Stat and value"
-// @Description Decrease a numeric stat
+// @Param message body api.NumStatRegistration true "Stat and value to decrease by"
+// @Description Decrease a numeric stat by some amount
 // @Accept json
 // @Produce json
-// @Success 200 {number} Current value
+// @Success 200 {object} api.ValueResponse
 // @Router /register/num/decrease [post]
 func DecreaseNumStat(g *gin.Context) {
 	var registration NumStatRegistration
@@ -73,10 +73,10 @@ func DecreaseNumStat(g *gin.Context) {
 // @Schemes
 // @Param name path string true "Stat name"
 // @Param label path string true "Stat label"
-// @Description Read a specific statistic
+// @Description Read a specific single numeric statistic by name and label
 // @Accept json
 // @Produce json
-// @Success 200 {number} Current Value
+// @Success 200 {object} api.ValueResponse
 // @Router /read/num/value/{name}/{label} [get]
 func ReadStatNameLabel(g *gin.Context) {
 	name := g.Params.ByName("name")
@@ -90,10 +90,10 @@ func ReadStatNameLabel(g *gin.Context) {
 // @Summary Read a specific statistic
 // @Schemes
 // @Param name path string true "Stat name"
-// @Description Read a specific statistic
+// @Description Read all labels associated with a stat by name
 // @Accept json
 // @Produce json
-// @Success 200 {object} JSONNumReadResult "desc"
+// @Success 200 {object} JSONNumReadResult
 // @Router /read/num/value/{name} [get]
 func ReadStatName(g *gin.Context) {
 	name := g.Params.ByName("name")
@@ -103,12 +103,12 @@ func ReadStatName(g *gin.Context) {
 }
 
 // ReadNumNames godoc
-// @Summary Read all names
+// @Summary Read all stat names
 // @Schemes
-// @Description Read list of numeric stats
+// @Description Read list of numeric stat names
 // @Accept json
 // @Produce json
-// @Success 200 {object} JSONNumReadResult "desc"
+// @Success 200 {object} JSONNumReadResult
 // @Router /read/num/names [get]
 func ReadNumNames(g *gin.Context) {
 	values := internal.ReadNumNames()
@@ -123,7 +123,7 @@ func ReadNumNames(g *gin.Context) {
 // @Description Read rate estimate of a specific statistic. Not suitable for accuracy, but great for quickly comparing stats.
 // @Accept json
 // @Produce json
-// @Success 200 {number} Exponential Rate estimate
+// @Success 200 {object} api.ValueResponse
 // @Router /read/num/exponentialrate/{name}/{label} [get]
 func ReadStatNameLabelExponentialRate(g *gin.Context) {
 	name := g.Params.ByName("name")
@@ -140,7 +140,7 @@ func ReadStatNameLabelExponentialRate(g *gin.Context) {
 // @Description Read rate estimates of a specific statistic. Not suitable for accuracy, but great for quickly comparing stats.
 // @Accept json
 // @Produce json
-// @Success 200 {number} Exponential Rate estimate
+// @Success 200 {object} api.ValueResponse
 // @Router /read/num/exponentialrate/{name} [get]
 func ReadStatNameExponentialRates(g *gin.Context) {
 	name := g.Params.ByName("name")
@@ -156,7 +156,7 @@ func ReadStatNameExponentialRates(g *gin.Context) {
 // @Description Returns the mean for all values across the stat name
 // @Accept json
 // @Produce json
-// @Success 200 {number} Label mean value
+// @Success 200 {object} api.ValueResponse
 // @Router /read/num/mean/{name} [get]
 func ReadNumMean(g *gin.Context) {
 	name := g.Params.ByName("name")
