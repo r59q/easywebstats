@@ -132,7 +132,7 @@ sudo vi /etc/systemd/system/easywebstats.service
 
 Create a user and fill out the service file
 
-```toml
+```properties
 # easywebstats.service
 [Unit]
 Description=EasyWebStats
