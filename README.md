@@ -22,7 +22,7 @@ When stats are registered using a name and label, you can either read all stats 
 ```shell
 # Curl example
 curl -X 'POST' \
-  'http://localhost:8080/api/v0/register/num/set' \
+  'http://localhost:8080/api/v1/register/num/set' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -41,7 +41,7 @@ Increase the number of visits on the about page by 1
 ```shell
 # Curl example
 curl -X 'POST' \
-  'http://localhost:8080/api/v0/register/num/increase' \
+  'http://localhost:8080/api/v1/register/num/increase' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -60,7 +60,7 @@ curl -X 'POST' \
 ```shell
 # Curl example
 curl -X 'GET' \
-  'http://localhost:8080/api/v0/read/num/number_of_visits/about_page' \
+  'http://localhost:8080/api/v1/read/num/number_of_visits/about_page' \
   -H 'accept: application/json'
 
 # Outputs
@@ -74,7 +74,7 @@ curl -X 'GET' \
 ```shell
 # Curl example
 curl -X 'GET' \
-  'http://localhost:8080/api/v0/read/num/number_of_visits' \
+  'http://localhost:8080/api/v1/read/num/number_of_visits' \
   -H 'accept: application/json'
 
 # Outputs

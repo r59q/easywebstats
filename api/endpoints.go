@@ -6,7 +6,7 @@ import (
 	"r59q.com/easywebstats/internal"
 )
 
-// @BasePath /api/v0
+// @BasePath /api/v1
 
 // SetNumStat godoc
 // @Summary Set numeric stat
