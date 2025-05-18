@@ -15,11 +15,12 @@ type NumberStore interface {
 	GetRateEstimates(name string) map[string]float64
 	GetNames() []string
 	GetMean(name string) float64
+	Serialize() *SerializedNumberStore
 }
 
 type numberStore struct {
 	numberMap StatMapper[float64]
-	rateStore concurrent.Map[float64]
+	rateStore *concurrent.Map[float64]
 }
 
 func (s *numberStore) Set(name string, label string, data float64) float64 {
@@ -90,7 +91,54 @@ func (s *numberStore) GetMean(name string) float64 {
 
 var store = &numberStore{
 	numberMap: CreateStatMap[float64](),
-	rateStore: concurrent.Map[float64]{},
+	rateStore: &concurrent.Map[float64]{},
+}
+
+type SerializedNumberStore struct {
+	SerializableNumberMap map[string]map[string]float64
+	SerializableRateStore map[string]map[string]float64
+}
+
+func (s *numberStore) Serialize() *SerializedNumberStore {
+	serializableNumberMap := map[string]map[string]float64{}
+	serializableRateStore := map[string]map[string]float64{}
+
+	names := s.GetNames()
+	for _, name := range names {
+		labels := s.GetLabels(name)
+		serializableNumberMap[name] = labels
+		estimates := s.GetRateEstimates(name)
+		serializableRateStore[name] = estimates
+	}
+
+	return &SerializedNumberStore{
+		SerializableNumberMap: serializableNumberMap,
+		SerializableRateStore: serializableRateStore,
+	}
+}
+
+func LoadSerializedNumberStore(serialized *SerializedNumberStore) {
+	statMap := CreateStatMap[float64]()
+	rateStore := &concurrent.Map[float64]{}
+
+	for name, labels := range serialized.SerializableNumberMap {
+		for label, value := range labels {
+			statMap.Set(name, label, value)
+		}
+	}
+
+	for name, labels := range serialized.SerializableRateStore {
+		for label, rate := range labels {
+			innerMap := rateStore.GetOrCreateInnerMap(name)
+			innerMap.Set(label, rate)
+		}
+	}
+
+	deSerialized := numberStore{
+		numberMap: statMap,
+		rateStore: rateStore,
+	}
+	store = &deSerialized
 }
 
 func GetNumberStore() NumberStore {

@@ -286,6 +286,26 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/serialize": {
+            "get": {
+                "description": "Read list of numeric stat names",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Read all stat names",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.JSONNumReadResult"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

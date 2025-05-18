@@ -11,8 +11,10 @@ import (
 func RunGinSever() {
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	v1 := r.Group("/api/v1")
-	{
+	{ // Version 1
+		v1 := r.Group("/api/v1")
+		v1.GET("/serialize", Serialize)
+
 		register := v1.Group("/register")
 		register.POST("/num/set", SetNumStat)
 		register.POST("/num/increase", IncreaseNumStat)

@@ -200,4 +200,17 @@ paths:
           schema:
             $ref: '#/definitions/api.ValueResponse'
       summary: Set numeric stat
+  /serialize:
+    get:
+      consumes:
+      - application/json
+      description: Read list of numeric stat names
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.JSONNumReadResult'
+      summary: Read all stat names
 swagger: "2.0"

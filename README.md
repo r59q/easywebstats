@@ -9,7 +9,7 @@ Registering statistics is automatically done when settings values. No initializa
 
 Data values are grouped by name and label.
 
-Note: **Stats are stored in-memory, which means for now, all data is lost when application is rebooted**
+Data is stored periodically (10 minutes interval) to a /data directory. When running in docker a mount to /data will ensure data is store persistently. The storage medium does not impact the performance of queries, it's just for storing the in-memory state
 
 ## Reading statistics
 
@@ -103,6 +103,8 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    volumes:
+      - ews_data:/data
 ```
 ```shell
 docker compose up -d
@@ -143,6 +145,7 @@ Type=simple
 # Create a user
 User=r59q 
 Group=r59q
+# Data will be stored in the working directory
 WorkingDirectory=/usr/local/bin
 ExecStart=/usr/local/bin/easywebstats
 Restart=always
@@ -176,6 +179,9 @@ Currently there's no built-in security, it's expected to be done on a network la
 ```shell
 docker build -t easywebstats . -f build/Dockerfile
 docker run --name easywebstats -p 8080:8080 -d easywebstats
+
+# With data volume
+docker run --name easywebstats -p 8080:8080 --volume ews_data:/data -d easywebstats
 ```
 Swagger docs available at http://localhost:8080/swagger/index.html
 
