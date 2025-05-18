@@ -10,6 +10,7 @@ var numberStoreFile = "data/nums.gob"
 
 // Save to file
 func SaveSerializedNumberStore(data *datastore.SerializedNumberStore) error {
+	os.Mkdir("data", 755)
 	file, err := os.Create(numberStoreFile)
 	if err != nil {
 		return err
