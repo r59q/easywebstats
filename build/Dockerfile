@@ -15,6 +15,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o /app/bin/a
 FROM scratch
 
 WORKDIR /
-RUN mkdir "data"
+RUN mkdir -p /data
 COPY --from=builder /app/bin/app .
 ENTRYPOINT ["./app"]
