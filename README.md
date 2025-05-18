@@ -92,6 +92,9 @@ A demo is available at [ews-demo.r59q.com](https://ews-demo.r59q.com/swagger/ind
 Standalone container
 ```shell
 docker run --name easywebstats -p 8080:8080 -d r59q/easywebstats
+
+# With data volume
+docker run --name easywebstats -p 8080:8080 --volume ews_data:/data -d easywebstats
 ```
 
 Part of a docker compose
