@@ -15,5 +15,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o /app/bin/a
 FROM scratch
 
 WORKDIR /
+ENV GIN_MODE=release
 COPY --from=builder /app/bin/app .
 ENTRYPOINT ["./app"]
