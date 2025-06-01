@@ -13,7 +13,8 @@ func RunGinSever() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	{ // Version 1
 		v1 := r.Group("/api/v1")
-		v1.GET("/serialize", Serialize)
+
+		v1.POST("/resetall", ResetAllMetrics)
 
 		register := v1.Group("/register")
 		register.POST("/num/set", SetNumStat)

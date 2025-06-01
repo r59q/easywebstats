@@ -169,15 +169,13 @@ func GetMetrics(g *gin.Context) {
 	g.String(http.StatusOK, internal.GetMetrics())
 }
 
-// Serialize godoc
-// @Summary Read all stat names
+// ResetAllMetrics godoc
+// @Summary Resets all metrics
 // @Schemes
-// @Description Read list of numeric stat names
-// @Accept json
-// @Produce json
-// @Success 200 {object} JSONNumReadResult
-// @Router /serialize [get]
-func Serialize(g *gin.Context) {
-	internal.Serialize()
-	g.JSON(http.StatusOK, gin.H{"value": "asdf"})
+// @Description Resets all metrics. There's no undo!
+// @Success 200
+// @Router /resetall [post]
+func ResetAllMetrics(g *gin.Context) {
+	internal.ResetStores()
+	g.String(http.StatusOK, "OK")
 }

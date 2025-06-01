@@ -3,7 +3,6 @@ package internal
 import (
 	"r59q.com/easywebstats/internal/datastore"
 	"r59q.com/easywebstats/internal/metrics"
-	"r59q.com/easywebstats/internal/persistence"
 )
 
 func HandleSetNum(name string, label string, value float64) float64 {
@@ -63,7 +62,6 @@ func GetMetrics() string {
 	return metrics.GetPrometheusExport()
 }
 
-func Serialize() {
-	store := datastore.GetNumberStore()
-	persistence.SaveSerializedNumberStore(store.Serialize())
+func ResetStores() {
+	datastore.ResetNumberStore()
 }

@@ -276,22 +276,13 @@
                 }
             }
         },
-        "/serialize": {
-            "get": {
-                "description": "Read list of numeric stat names",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Read all stat names",
+        "/resetall": {
+            "post": {
+                "description": "Resets all metrics. There's no undo!",
+                "summary": "Resets all metrics",
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.JSONNumReadResult"
-                        }
+                        "description": "OK"
                     }
                 }
             }

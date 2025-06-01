@@ -200,17 +200,11 @@ paths:
           schema:
             $ref: '#/definitions/api.ValueResponse'
       summary: Set numeric stat
-  /serialize:
-    get:
-      consumes:
-      - application/json
-      description: Read list of numeric stat names
-      produces:
-      - application/json
+  /resetall:
+    post:
+      description: Resets all metrics. There's no undo!
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/api.JSONNumReadResult'
-      summary: Read all stat names
+      summary: Resets all metrics
 swagger: "2.0"

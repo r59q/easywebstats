@@ -144,3 +144,10 @@ func LoadSerializedNumberStore(serialized *SerializedNumberStore) {
 func GetNumberStore() NumberStore {
 	return store
 }
+
+func ResetNumberStore() {
+	store = &numberStore{
+		numberMap: CreateStatMap[float64](),
+		rateStore: &concurrent.Map[float64]{},
+	}
+}
